@@ -13,6 +13,12 @@
  "define"
  "version"
  "called"
+ "where"
+ "properly"
+ "and"
+ "or"
+ "xor"
+ "between"
 ] @keyword
 
 [
@@ -26,3 +32,13 @@
  "]"
 ] @punctuation.bracket
 
+[
+"="
+"!="
+"~"
+"!~"
+"<="
+"<"
+">"
+">="
+] @keyword.operator

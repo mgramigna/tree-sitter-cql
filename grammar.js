@@ -92,9 +92,31 @@ module.exports = grammar({
     expression_definition: ($) =>
       seq("define", $.identifier, ":", $.expression),
 
-    // TODO: everything
-    // expression: ($) => /.*\n/,
-    expression: ($) => choice($.expression_term, $.retrieve),
+    /*
+    * TODO:
+    | ('duration' 'in')? pluralDateTimePrecision 'between' expressionTerm 'and' expressionTerm      #durationBetweenExpression
+    | 'difference' 'in' pluralDateTimePrecision 'between' expressionTerm 'and' expressionTerm       #differenceBetweenExpression
+    | expression intervalOperatorPhrase expression                                                  #timingExpression
+    | expression ('in' | 'contains') dateTimePrecisionSpecifier? expression                         #membershipExpression
+    */
+    expression: ($) =>
+      choice(
+        $.expression_term,
+        $.retrieve,
+        $.query,
+        $.boolean_expression,
+        $.type_expression,
+        $.cast_expression,
+        $.not_expression,
+        $.existence_expression,
+        $.between_expression,
+        $.equality_expression,
+        $.inequality_expression,
+        $.and_expression,
+        $.or_expression,
+        $.implies_expression,
+        $.in_fix_set_expression
+      ),
 
     // TODO: everything
     expression_term: ($) => choice($.term),
@@ -118,6 +140,90 @@ module.exports = grammar({
         $.referential_identifier
       ),
 
+    boolean_expression: ($) =>
+      seq($.expression, "is", optional("not"), choice("null", "true", "false")),
+
+    type_expression: ($) =>
+      seq($.expression, choice("is", "as"), $.type_specifier),
+
+    cast_expression: ($) =>
+      prec.left(2, seq("cast", $.expression, "as", $.type_specifier)),
+
+    not_expression: ($) => prec.left(2, seq("not", $.expression)),
+
+    existence_expression: ($) => prec.left(2, seq("exists", $.expression)),
+
+    between_expression: ($) =>
+      seq(
+        $.expression,
+        optional("properly"),
+        "between",
+        $.expression_term,
+        "and",
+        $.expression_term
+      ),
+
+    // TODO: look at precedence?
+    equality_expression: ($) =>
+      prec.left(
+        2,
+        seq($.expression, choice("=", "!=", "~", "!~"), $.expression)
+      ),
+
+    inequality_expression: ($) =>
+      prec.left(
+        2,
+        seq($.expression, choice("<=", "<", ">", ">="), $.expression)
+      ),
+
+    // TODO: prec
+    and_expression: ($) => prec.left(2, seq($.expression, "and", $.expression)),
+
+    or_expression: ($) =>
+      prec.left(2, seq($.expression, choice("or", "xor"), $.expression)),
+
+    /*
+     * TODO: prec
+     */
+    implies_expression: ($) =>
+      prec.left(2, seq($.expression, "implies", $.expression)),
+
+    in_fix_set_expression: ($) =>
+      prec.left(
+        2,
+        seq(
+          $.expression,
+          choice("|", "union", "intersect", "except"),
+          $.expression
+        )
+      ),
+
+    // TODO: let
+    // TODO: inclusion
+    // TODO aggregate
+    // TODO: return
+    // TODO: sort
+    query: ($) => seq($.query_source_clause, optional($.where_clause)),
+
+    where_clause: ($) => prec.left(1, seq("where", $.expression)),
+
+    query_source: ($) =>
+      choice(
+        $.retrieve,
+        $.qualified_identifier_expression,
+        seq("(", $.expression, ")")
+      ),
+
+    aliased_query_source: ($) =>
+      seq($.query_source, alias($.identifier, $.query_alias)),
+
+    query_source_clause: ($) =>
+      seq(
+        optional("from"),
+        $.aliased_query_source,
+        repeat(seq(",", $.aliased_query_source))
+      ),
+
     // TODO: contextIdentifier
     // TODO: codepath codeComparator
     retrieve: ($) =>
@@ -127,6 +233,12 @@ module.exports = grammar({
     terminology: ($) => choice($.qualified_identifier_expression),
 
     /* Type Specifiers */
+    // TODO: listTypeSpecifier
+    // TODO: intervalTypeSpecifier
+    // TODO: tupleTypeSpecifier
+    // TODO: choiceTypeSpecifier
+    type_specifier: ($) => choice($.named_type_specifier),
+
     named_type_specifier: ($) =>
       seq(
         repeat(seq(alias($.identifier, $.qualifier), ".")),

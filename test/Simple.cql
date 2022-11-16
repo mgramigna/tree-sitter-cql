@@ -15,4 +15,19 @@ define "Test":
   true
 
 define "test2":
-  [Encounter: "test"]
+  [Encounter: "test"] E where true
+
+define "test3":
+  [Encouter] is not null
+
+define "test4":
+  cast [Encounter] as Code
+
+define "testbetween":
+  [Encounter] properly between true and false
+
+define "testand":
+  true and false
+
+define "testop":
+  true >= false

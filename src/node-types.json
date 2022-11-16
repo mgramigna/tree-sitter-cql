@@ -1,5 +1,92 @@
 [
   {
+    "type": "aliased_query_source",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "query_alias",
+          "named": true
+        },
+        {
+          "type": "query_source",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "and_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "between_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "expression_term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "boolean_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "cast_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "type_specifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "context_definition",
     "named": true,
     "fields": {},
@@ -65,6 +152,36 @@
     }
   },
   {
+    "type": "equality_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "existence_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "expression",
     "named": true,
     "fields": {},
@@ -73,11 +190,63 @@
       "required": true,
       "types": [
         {
+          "type": "and_expression",
+          "named": true
+        },
+        {
+          "type": "between_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "cast_expression",
+          "named": true
+        },
+        {
+          "type": "equality_expression",
+          "named": true
+        },
+        {
+          "type": "existence_expression",
+          "named": true
+        },
+        {
           "type": "expression_term",
           "named": true
         },
         {
+          "type": "implies_expression",
+          "named": true
+        },
+        {
+          "type": "in_fix_set_expression",
+          "named": true
+        },
+        {
+          "type": "inequality_expression",
+          "named": true
+        },
+        {
+          "type": "not_expression",
+          "named": true
+        },
+        {
+          "type": "or_expression",
+          "named": true
+        },
+        {
+          "type": "query",
+          "named": true
+        },
+        {
           "type": "retrieve",
+          "named": true
+        },
+        {
+          "type": "type_expression",
           "named": true
         }
       ]
@@ -126,11 +295,63 @@
       "required": true,
       "types": [
         {
+          "type": "and_expression",
+          "named": true
+        },
+        {
+          "type": "between_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "cast_expression",
+          "named": true
+        },
+        {
+          "type": "equality_expression",
+          "named": true
+        },
+        {
+          "type": "existence_expression",
+          "named": true
+        },
+        {
           "type": "expression_term",
           "named": true
         },
         {
+          "type": "implies_expression",
+          "named": true
+        },
+        {
+          "type": "in_fix_set_expression",
+          "named": true
+        },
+        {
+          "type": "inequality_expression",
+          "named": true
+        },
+        {
+          "type": "not_expression",
+          "named": true
+        },
+        {
+          "type": "or_expression",
+          "named": true
+        },
+        {
+          "type": "query",
+          "named": true
+        },
+        {
           "type": "retrieve",
+          "named": true
+        },
+        {
+          "type": "type_expression",
           "named": true
         }
       ]
@@ -175,6 +396,36 @@
     }
   },
   {
+    "type": "implies_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "in_fix_set_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "include_definition",
     "named": true,
     "fields": {},
@@ -192,6 +443,21 @@
         },
         {
           "type": "version_specifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "inequality_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
           "named": true
         }
       ]
@@ -302,6 +568,36 @@
     }
   },
   {
+    "type": "not_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "or_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "qualified_identifier",
     "named": true,
     "fields": {},
@@ -372,6 +668,82 @@
         },
         {
           "type": "keyword_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "query",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "query_source_clause",
+          "named": true
+        },
+        {
+          "type": "where_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "query_alias",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "default_identifier",
+          "named": true
+        },
+        {
+          "type": "quoted_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "query_source",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "qualified_identifier_expression",
+          "named": true
+        },
+        {
+          "type": "retrieve",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "query_source_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "aliased_query_source",
           "named": true
         }
       ]
@@ -526,9 +898,43 @@
     }
   },
   {
+    "type": "type_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "type_specifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_name_identifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "type_specifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "named_type_specifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "using_definition",
@@ -630,6 +1036,29 @@
     }
   },
   {
+    "type": "where_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "!=",
+    "named": false
+  },
+  {
+    "type": "!~",
+    "named": false
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -646,11 +1075,35 @@
     "named": false
   },
   {
+    "type": ",",
+    "named": false
+  },
+  {
     "type": ".",
     "named": false
   },
   {
     "type": ":",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
     "named": false
   },
   {
@@ -670,11 +1123,23 @@
     "named": false
   },
   {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "as",
+    "named": false
+  },
+  {
     "type": "asc",
     "named": false
   },
   {
     "type": "ascending",
+    "named": false
+  },
+  {
+    "type": "between",
     "named": false
   },
   {
@@ -687,6 +1152,10 @@
   },
   {
     "type": "called",
+    "named": false
+  },
+  {
+    "type": "cast",
     "named": false
   },
   {
@@ -770,11 +1239,23 @@
     "named": false
   },
   {
+    "type": "exists",
+    "named": false
+  },
+  {
     "type": "external",
     "named": false
   },
   {
+    "type": "false",
+    "named": false
+  },
+  {
     "type": "fluent",
+    "named": false
+  },
+  {
+    "type": "from",
     "named": false
   },
   {
@@ -798,6 +1279,10 @@
     "named": false
   },
   {
+    "type": "is",
+    "named": false
+  },
+  {
     "type": "library",
     "named": false
   },
@@ -810,8 +1295,20 @@
     "named": false
   },
   {
+    "type": "not",
+    "named": false
+  },
+  {
+    "type": "null",
+    "named": false
+  },
+  {
     "type": "null_literal",
     "named": true
+  },
+  {
+    "type": "or",
+    "named": false
   },
   {
     "type": "or after",
@@ -843,6 +1340,10 @@
   },
   {
     "type": "private",
+    "named": false
+  },
+  {
+    "type": "properly",
     "named": false
   },
   {
@@ -882,6 +1383,10 @@
     "named": false
   },
   {
+    "type": "true",
+    "named": false
+  },
+  {
     "type": "union",
     "named": false
   },
@@ -907,6 +1412,14 @@
   },
   {
     "type": "xor",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]
