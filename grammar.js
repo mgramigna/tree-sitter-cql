@@ -5,10 +5,17 @@ module.exports = grammar({
 
   //TODO: look at these, try out precedence maybe
   conflicts: ($) => [
+    [$.timing_expression, $.boolean_expression, $.type_expression],
+    [$.timing_expression, $.type_expression],
+    [$.timing_expression],
+    [$.timing_expression, $.between_expression],
     [$.membership_expression, $.boolean_expression, $.type_expression],
     [$.membership_expression, $.keyword_identifier],
     [$.membership_expression, $.type_expression],
     [$.membership_expression, $.between_expression],
+    [$.between_expression, $.membership_expression, $.timing_expression],
+    [$.membership_expression, $.timing_expression],
+    [$.interval_operator_phrase],
   ],
 
   rules: {
@@ -100,10 +107,6 @@ module.exports = grammar({
     expression_definition: ($) =>
       seq("define", $.identifier, ":", $.expression),
 
-    /*
-    * TODO:
-    | expression intervalOperatorPhrase expression                                                  #timingExpression
-    */
     expression: ($) =>
       choice(
         $.expression_term,
@@ -123,7 +126,8 @@ module.exports = grammar({
         $.in_fix_set_expression,
         $.duration_between_expression,
         $.difference_between_expression,
-        $.membership_expression
+        $.membership_expression,
+        $.timing_expression
       ),
 
     // TODO: everything
@@ -268,6 +272,49 @@ module.exports = grammar({
         optional($.date_time_precision_specifier),
         $.expression
       ),
+
+    relative_qualifier: () => choice("or before", "or after"),
+
+    // intervalOperatorPhrase
+    // TODO    | ('starts' | 'ends' | 'occurs')? quantityOffset? temporalRelationship dateTimePrecisionSpecifier? ('start' | 'end')?   #beforeOrAfterIntervalOperatorPhrase
+    // TODO    | ('starts' | 'ends' | 'occurs')? 'properly'? 'within' quantity 'of' ('start' | 'end')?                                 #withinIntervalOperatorPhrase
+    interval_operator_phrase: ($) =>
+      choice(
+        seq(
+          optional(choice("starts", "ends", "occurs")),
+          "same",
+          optional($.date_time_precision),
+          choice($.relative_qualifier, "as"),
+          optional(choice("start", "end"))
+        ),
+        seq(
+          optional("properly"),
+          "includes",
+          optional($.date_time_precision_specifier),
+          optional(choice("start", "end"))
+        ),
+        seq(
+          optional(choice("starts", "ends", "occurs")),
+          optional("properly"),
+          choice("during", "included in"),
+          optional($.date_time_precision_specifier)
+        ),
+        seq(
+          "meets",
+          optional(choice("before", "after")),
+          optional($.date_time_precision_specifier)
+        ),
+        seq(
+          "overlaps",
+          optional(choice("before", "after")),
+          optional($.date_time_precision_specifier)
+        ),
+        seq("starts", optional($.date_time_precision_specifier)),
+        seq("ends", optional($.date_time_precision_specifier))
+      ),
+
+    timing_expression: ($) =>
+      seq($.expression, $.interval_operator_phrase, $.expression),
 
     // TODO: let
     // TODO: inclusion

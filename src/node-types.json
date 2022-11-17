@@ -316,6 +316,10 @@
           "named": true
         },
         {
+          "type": "timing_expression",
+          "named": true
+        },
+        {
           "type": "type_expression",
           "named": true
         }
@@ -433,6 +437,10 @@
           "named": true
         },
         {
+          "type": "timing_expression",
+          "named": true
+        },
+        {
           "type": "type_expression",
           "named": true
         }
@@ -540,6 +548,29 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interval_operator_phrase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "date_time_precision",
+          "named": true
+        },
+        {
+          "type": "date_time_precision_specifier",
+          "named": true
+        },
+        {
+          "type": "relative_qualifier",
           "named": true
         }
       ]
@@ -913,6 +944,11 @@
     }
   },
   {
+    "type": "relative_qualifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "retrieve",
     "named": true,
     "fields": {},
@@ -998,6 +1034,25 @@
       "types": [
         {
           "type": "qualified_identifier_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "timing_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "interval_operator_phrase",
           "named": true
         }
       ]
@@ -1229,6 +1284,10 @@
     "named": false
   },
   {
+    "type": "after",
+    "named": false
+  },
+  {
     "type": "and",
     "named": false
   },
@@ -1242,6 +1301,10 @@
   },
   {
     "type": "ascending",
+    "named": false
+  },
+  {
+    "type": "before",
     "named": false
   },
   {
@@ -1345,6 +1408,10 @@
     "named": false
   },
   {
+    "type": "during",
+    "named": false
+  },
+  {
     "type": "end",
     "named": false
   },
@@ -1402,6 +1469,10 @@
   },
   {
     "type": "include",
+    "named": false
+  },
+  {
+    "type": "included in",
     "named": false
   },
   {
@@ -1465,6 +1536,10 @@
     "named": true
   },
   {
+    "type": "occurs",
+    "named": false
+  },
+  {
     "type": "of",
     "named": false
   },
@@ -1510,6 +1585,10 @@
   },
   {
     "type": "public",
+    "named": false
+  },
+  {
+    "type": "same",
     "named": false
   },
   {
