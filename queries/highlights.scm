@@ -41,4 +41,4 @@
 "<"
 ">"
 ">="
-] @keyword.operator
+] @operator
