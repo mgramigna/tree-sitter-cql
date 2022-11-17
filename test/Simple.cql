@@ -31,3 +31,6 @@ define "testand":
 
 define "testop":
   true >= false
+
+define "testquantity":
+  4 days

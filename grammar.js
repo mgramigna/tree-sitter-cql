@@ -16,6 +16,7 @@ module.exports = grammar({
     [$.between_expression, $.membership_expression, $.timing_expression],
     [$.membership_expression, $.timing_expression],
     [$.interval_operator_phrase],
+    [$.quantity, $.literal],
   ],
 
   rules: {
@@ -136,12 +137,16 @@ module.exports = grammar({
     // TODO: everything
     term: ($) => choice($.literal),
 
-    // TODO: number, long date datetime time quantity ratio
+    quantity: ($) => seq($.number, optional($.unit)),
+
+    // TODO: long date datetime time  ratio
     literal: ($) =>
       choice(
         alias(/true|false/, $.boolean_literal),
         alias("null", $.null_literal),
-        alias($.string, $.string_literal)
+        alias($.string, $.string_literal),
+        alias($.number, $.number_literal),
+        alias($.quantity, $.quantity_literal)
       ),
 
     qualified_identifier_expression: ($) =>
@@ -275,9 +280,22 @@ module.exports = grammar({
 
     relative_qualifier: () => choice("or before", "or after"),
 
-    // intervalOperatorPhrase
-    // TODO    | ('starts' | 'ends' | 'occurs')? quantityOffset? temporalRelationship dateTimePrecisionSpecifier? ('start' | 'end')?   #beforeOrAfterIntervalOperatorPhrase
-    // TODO    | ('starts' | 'ends' | 'occurs')? 'properly'? 'within' quantity 'of' ('start' | 'end')?                                 #withinIntervalOperatorPhrase
+    offset_relative_qualifier: () => choice("or more", "or less"),
+
+    exclusive_relative_qualifier: () => choice("less than", "more than"),
+
+    quantity_offset: ($) =>
+      choice(
+        seq($.quantity, optional($.offset_relative_qualifier)),
+        seq($.exclusive_relative_qualifier, $.quantity)
+      ),
+
+    temporal_relationship: () =>
+      choice(
+        seq(optional("on or"), choice("before", "after")),
+        seq(choice("before", "after"), optional("or on"))
+      ),
+
     interval_operator_phrase: ($) =>
       choice(
         seq(
@@ -310,7 +328,22 @@ module.exports = grammar({
           optional($.date_time_precision_specifier)
         ),
         seq("starts", optional($.date_time_precision_specifier)),
-        seq("ends", optional($.date_time_precision_specifier))
+        seq("ends", optional($.date_time_precision_specifier)),
+        seq(
+          optional(choice("starts", "ends", "occurs")),
+          optional("properly"),
+          "within",
+          $.quantity,
+          "of",
+          optional(choice("start", "end"))
+        ),
+        seq(
+          optional(choice("starts", "ends", "occurs")),
+          optional($.quantity_offset),
+          $.temporal_relationship,
+          optional($.date_time_precision_specifier),
+          optional(choice("start", "end"))
+        )
       ),
 
     timing_expression: ($) =>
@@ -472,6 +505,11 @@ module.exports = grammar({
           )
         )
       ),
+
+    number: () => /[0-9]+('.' [0-9]+)?/,
+
+    unit: ($) =>
+      choice($.date_time_precision, $.plural_date_time_precision, $.string),
 
     /* Extras */
     comment: () =>
