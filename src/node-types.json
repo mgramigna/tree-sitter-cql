@@ -1,5 +1,10 @@
 [
   {
+    "type": "access_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "aliased_query_source",
     "named": true,
     "fields": {},
@@ -340,6 +345,10 @@
       "required": true,
       "types": [
         {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
@@ -460,6 +469,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
         {
           "type": "function_body",
           "named": true
@@ -1266,6 +1279,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
         {
           "type": "qualified_identifier",
           "named": true

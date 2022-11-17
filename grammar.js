@@ -57,16 +57,18 @@ module.exports = grammar({
         optional(seq("called", alias($.identifier, $.local_identifier)))
       ),
 
-    // TODO: access modifier
     // TODO: codesystems
     valueset_definition: ($) =>
       seq(
+        optional($.access_modifier),
         "valueset",
         $.qualified_identifier,
         ":",
         alias($.string, $.valueset_id),
         optional($.version_specifier)
       ),
+
+    access_modifier: () => choice("public", "private"),
 
     /* Statements */
 
@@ -85,7 +87,6 @@ module.exports = grammar({
         $.identifier
       ),
 
-    // TODO: access modifier
     // TODO: fluentModifier
     // TODO: functionIdentifier
     // TODO: operands
@@ -93,6 +94,7 @@ module.exports = grammar({
     function_definition: ($) =>
       seq(
         "define",
+        optional($.access_modifier),
         "function",
         $.identifier,
         "(",
@@ -103,10 +105,14 @@ module.exports = grammar({
 
     /* Expressions */
 
-    // TODO: AccessModifier
-    // TODO: actual expression
     expression_definition: ($) =>
-      seq("define", $.identifier, ":", $.expression),
+      seq(
+        "define",
+        optional($.access_modifier),
+        $.identifier,
+        ":",
+        $.expression
+      ),
 
     expression: ($) =>
       choice(
