@@ -33,8 +33,11 @@ module.exports = grammar({
       choice(
         $.using_definition,
         $.include_definition,
-        $.valueset_definition
-        // TODO: others
+        $.valueset_definition,
+        $.codesystem_definition,
+        $.parameter_definition,
+        $.code_definition,
+        $.concept_definition
       ),
 
     library_definition: ($) =>
@@ -66,6 +69,55 @@ module.exports = grammar({
         ":",
         alias($.string, $.valueset_id),
         optional($.version_specifier)
+      ),
+
+    codesystem_definition: ($) =>
+      seq(
+        optional($.access_modifier),
+        "codesystem",
+        $.identifier,
+        ":",
+        alias($.string, $.code_system_id),
+        optional($.version_specifier)
+      ),
+
+    code_definition: ($) =>
+      seq(
+        optional($.access_modifier),
+        "code",
+        $.identifier,
+        ":",
+        alias($.string, $.code_id),
+        "from",
+        alias($.code_or_codesystem_identifier, $.codesystem_identifier),
+        optional($.display_clause)
+      ),
+
+    concept_definition: ($) =>
+      seq(
+        optional($.access_modifier),
+        "concept",
+        $.identifier,
+        ":",
+        "{",
+        alias($.code_or_codesystem_identifier, $.code_identifier),
+        repeat(
+          seq(",", alias($.code_or_codesystem_identifier, $.code_identifier))
+        ),
+        "}",
+        optional($.display_clause)
+      ),
+
+    parameter_definition: ($) =>
+      prec.right(
+        1,
+        seq(
+          optional($.access_modifier),
+          "parameter",
+          $.identifier,
+          optional($.type_specifier),
+          optional(seq("default", $.expression))
+        )
       ),
 
     access_modifier: () => choice("public", "private"),
@@ -409,6 +461,12 @@ module.exports = grammar({
     // TODO: delimited identifier
     identifier: ($) => choice($.default_identifier, $.quoted_identifier),
 
+    code_or_codesystem_identifier: ($) =>
+      seq(
+        optional(seq(alias($.identifier, $.library_identifier), ".")),
+        $.identifier
+      ),
+
     qualified_identifier: ($) =>
       seq(repeat(seq(alias($.identifier, $.qualifier), ".")), $.identifier),
 
@@ -516,6 +574,8 @@ module.exports = grammar({
 
     unit: ($) =>
       choice($.date_time_precision, $.plural_date_time_precision, $.string),
+
+    display_clause: ($) => seq("display", $.string),
 
     /* Extras */
     comment: () =>

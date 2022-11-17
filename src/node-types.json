@@ -92,6 +92,167 @@
     }
   },
   {
+    "type": "code_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
+          "type": "code_id",
+          "named": true
+        },
+        {
+          "type": "codesystem_identifier",
+          "named": true
+        },
+        {
+          "type": "display_clause",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "code_id",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "single_quote_string_fragment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "code_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "library_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "code_system_id",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "single_quote_string_fragment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "codesystem_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
+          "type": "code_system_id",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "version_specifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "codesystem_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "library_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "concept_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
+          "type": "code_identifier",
+          "named": true
+        },
+        {
+          "type": "display_clause",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "context_definition",
     "named": true,
     "fields": {},
@@ -162,7 +323,23 @@
       "required": true,
       "types": [
         {
+          "type": "code_definition",
+          "named": true
+        },
+        {
+          "type": "codesystem_definition",
+          "named": true
+        },
+        {
+          "type": "concept_definition",
+          "named": true
+        },
+        {
           "type": "include_definition",
+          "named": true
+        },
+        {
+          "type": "parameter_definition",
           "named": true
         },
         {
@@ -190,6 +367,21 @@
         },
         {
           "type": "plural_date_time_precision",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "display_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
           "named": true
         }
       ]
@@ -631,6 +823,25 @@
     }
   },
   {
+    "type": "library_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "default_identifier",
+          "named": true
+        },
+        {
+          "type": "quoted_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "literal",
     "named": true,
     "fields": {},
@@ -767,6 +978,33 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parameter_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_specifier",
           "named": true
         }
       ]
@@ -1863,7 +2101,15 @@
     "named": false
   },
   {
+    "type": "{",
+    "named": false
+  },
+  {
     "type": "|",
+    "named": false
+  },
+  {
+    "type": "}",
     "named": false
   },
   {
