@@ -226,6 +226,21 @@
     }
   },
   {
+    "type": "codesystems",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "codesystem_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "concept_definition",
     "named": true,
     "fields": {},
@@ -1519,6 +1534,10 @@
       "types": [
         {
           "type": "access_modifier",
+          "named": true
+        },
+        {
+          "type": "codesystems",
           "named": true
         },
         {

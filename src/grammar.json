@@ -239,6 +239,65 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "codesystems"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "codesystems": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "codesystems"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "code_or_codesystem_identifier"
+          },
+          "named": true,
+          "value": "codesystem_identifier"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "code_or_codesystem_identifier"
+                },
+                "named": true,
+                "value": "codesystem_identifier"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },

@@ -56,11 +56,9 @@ module.exports = grammar({
         "include",
         $.qualified_identifier,
         optional($.version_specifier),
-
         optional(seq("called", alias($.identifier, $.local_identifier)))
       ),
 
-    // TODO: codesystems
     valueset_definition: ($) =>
       seq(
         optional($.access_modifier),
@@ -68,7 +66,22 @@ module.exports = grammar({
         $.qualified_identifier,
         ":",
         alias($.string, $.valueset_id),
-        optional($.version_specifier)
+        optional($.version_specifier),
+        optional($.codesystems)
+      ),
+
+    codesystems: ($) =>
+      seq(
+        "codesystems",
+        "{",
+        alias($.code_or_codesystem_identifier, $.codesystem_identifier),
+        repeat(
+          seq(
+            ",",
+            alias($.code_or_codesystem_identifier, $.codesystem_identifier)
+          )
+        ),
+        "}"
       ),
 
     codesystem_definition: ($) =>
