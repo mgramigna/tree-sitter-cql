@@ -400,6 +400,18 @@
         {
           "type": "SYMBOL",
           "name": "in_fix_set_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "duration_between_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "difference_between_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "membership_expression"
         }
       ]
     },
@@ -832,6 +844,231 @@
           }
         ]
       }
+    },
+    "date_time_precision": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "year"
+        },
+        {
+          "type": "STRING",
+          "value": "month"
+        },
+        {
+          "type": "STRING",
+          "value": "week"
+        },
+        {
+          "type": "STRING",
+          "value": "day"
+        },
+        {
+          "type": "STRING",
+          "value": "hour"
+        },
+        {
+          "type": "STRING",
+          "value": "minute"
+        },
+        {
+          "type": "STRING",
+          "value": "second"
+        },
+        {
+          "type": "STRING",
+          "value": "millisecond"
+        }
+      ]
+    },
+    "plural_date_time_precision": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "years"
+        },
+        {
+          "type": "STRING",
+          "value": "months"
+        },
+        {
+          "type": "STRING",
+          "value": "weeks"
+        },
+        {
+          "type": "STRING",
+          "value": "days"
+        },
+        {
+          "type": "STRING",
+          "value": "hours"
+        },
+        {
+          "type": "STRING",
+          "value": "minutes"
+        },
+        {
+          "type": "STRING",
+          "value": "seconds"
+        },
+        {
+          "type": "STRING",
+          "value": "milliseconds"
+        }
+      ]
+    },
+    "date_time_component": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "date_time_precision"
+        },
+        {
+          "type": "STRING",
+          "value": "date"
+        },
+        {
+          "type": "STRING",
+          "value": "time"
+        },
+        {
+          "type": "STRING",
+          "value": "timezone"
+        },
+        {
+          "type": "STRING",
+          "value": "timezoneoffset"
+        }
+      ]
+    },
+    "duration_between_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "duration"
+                },
+                {
+                  "type": "STRING",
+                  "value": "in"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "plural_date_time_precision"
+        },
+        {
+          "type": "STRING",
+          "value": "between"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_term"
+        },
+        {
+          "type": "STRING",
+          "value": "and"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_term"
+        }
+      ]
+    },
+    "difference_between_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "difference"
+        },
+        {
+          "type": "STRING",
+          "value": "in"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "plural_date_time_precision"
+        },
+        {
+          "type": "STRING",
+          "value": "between"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_term"
+        },
+        {
+          "type": "STRING",
+          "value": "and"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_term"
+        }
+      ]
+    },
+    "date_time_precision_specifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "date_time_precision"
+        },
+        {
+          "type": "STRING",
+          "value": "of"
+        }
+      ]
+    },
+    "membership_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "in"
+            },
+            {
+              "type": "STRING",
+              "value": "contains"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "date_time_precision_specifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        }
+      ]
     },
     "query": {
       "type": "SEQ",
@@ -1545,7 +1782,25 @@
       "value": "[\\s\\p{Zs}\\uFEFF\\u2060\\u200B]"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "membership_expression",
+      "boolean_expression",
+      "type_expression"
+    ],
+    [
+      "membership_expression",
+      "keyword_identifier"
+    ],
+    [
+      "membership_expression",
+      "type_expression"
+    ],
+    [
+      "membership_expression",
+      "between_expression"
+    ]
+  ],
   "precedences": [],
   "externals": [],
   "inline": [],

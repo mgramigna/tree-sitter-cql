@@ -3,6 +3,14 @@ module.exports = grammar({
 
   extras: ($) => [$.comment, /[\s\p{Zs}\uFEFF\u2060\u200B]/],
 
+  //TODO: look at these, try out precedence maybe
+  conflicts: ($) => [
+    [$.membership_expression, $.boolean_expression, $.type_expression],
+    [$.membership_expression, $.keyword_identifier],
+    [$.membership_expression, $.type_expression],
+    [$.membership_expression, $.between_expression],
+  ],
+
   rules: {
     cql_library: ($) =>
       seq(
@@ -94,10 +102,7 @@ module.exports = grammar({
 
     /*
     * TODO:
-    | ('duration' 'in')? pluralDateTimePrecision 'between' expressionTerm 'and' expressionTerm      #durationBetweenExpression
-    | 'difference' 'in' pluralDateTimePrecision 'between' expressionTerm 'and' expressionTerm       #differenceBetweenExpression
     | expression intervalOperatorPhrase expression                                                  #timingExpression
-    | expression ('in' | 'contains') dateTimePrecisionSpecifier? expression                         #membershipExpression
     */
     expression: ($) =>
       choice(
@@ -115,7 +120,10 @@ module.exports = grammar({
         $.and_expression,
         $.or_expression,
         $.implies_expression,
-        $.in_fix_set_expression
+        $.in_fix_set_expression,
+        $.duration_between_expression,
+        $.difference_between_expression,
+        $.membership_expression
       ),
 
     // TODO: everything
@@ -196,6 +204,69 @@ module.exports = grammar({
           choice("|", "union", "intersect", "except"),
           $.expression
         )
+      ),
+
+    date_time_precision: () =>
+      choice(
+        "year",
+        "month",
+        "week",
+        "day",
+        "hour",
+        "minute",
+        "second",
+        "millisecond"
+      ),
+
+    plural_date_time_precision: () =>
+      choice(
+        "years",
+        "months",
+        "weeks",
+        "days",
+        "hours",
+        "minutes",
+        "seconds",
+        "milliseconds"
+      ),
+
+    date_time_component: ($) =>
+      choice(
+        $.date_time_precision,
+        "date",
+        "time",
+        "timezone",
+        "timezoneoffset"
+      ),
+
+    duration_between_expression: ($) =>
+      seq(
+        optional(seq("duration", "in")),
+        $.plural_date_time_precision,
+        "between",
+        $.expression_term,
+        "and",
+        $.expression_term
+      ),
+
+    difference_between_expression: ($) =>
+      seq(
+        "difference",
+        "in",
+        $.plural_date_time_precision,
+        "between",
+        $.expression_term,
+        "and",
+        $.expression_term
+      ),
+
+    date_time_precision_specifier: ($) => seq($.date_time_precision, "of"),
+
+    membership_expression: ($) =>
+      seq(
+        choice("in", "contains"),
+        optional($.date_time_precision_specifier),
+        $.expression
       ),
 
     // TODO: let
