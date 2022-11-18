@@ -50,3 +50,6 @@ define "testreturn":
 define "testsort":
   [Encounter] E
    sort by true,false asc
+
+define function TypeTest(codes List<Code>, codeOrConcept Choice<Code, Concept>):
+  true

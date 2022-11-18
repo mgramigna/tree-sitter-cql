@@ -516,16 +516,44 @@ module.exports = grammar({
     terminology: ($) => choice($.qualified_identifier_expression, $.expression),
 
     /* Type Specifiers */
-    // TODO: listTypeSpecifier
-    // TODO: intervalTypeSpecifier
-    // TODO: tupleTypeSpecifier
-    // TODO: choiceTypeSpecifier
-    type_specifier: ($) => choice($.named_type_specifier),
+    type_specifier: ($) =>
+      choice(
+        $.named_type_specifier,
+        $.list_type_specifier,
+        $.interval_type_specifier,
+        $.tuple_type_specifier,
+        $.choice_type_specifier
+      ),
 
     named_type_specifier: ($) =>
       seq(
         repeat(seq(alias($.identifier, $.qualifier), ".")),
         $.referential_or_type_name_identifier
+      ),
+
+    list_type_specifier: ($) => seq("List", "<", $.type_specifier, ">"),
+
+    interval_type_specifier: ($) => seq("Interval", "<", $.type_specifier, ">"),
+
+    tuple_type_specifier: ($) =>
+      seq(
+        "Tuple",
+        "{",
+        $.tuple_element_definition,
+        repeat(seq(",", $.tuple_element_definition)),
+        "}"
+      ),
+
+    tuple_element_definition: ($) =>
+      seq($.referential_identifier, $.type_specifier),
+
+    choice_type_specifier: ($) =>
+      seq(
+        "Choice",
+        "<",
+        $.type_specifier,
+        repeat(seq(",", $.type_specifier)),
+        ">"
       ),
 
     /* Identifiers */
