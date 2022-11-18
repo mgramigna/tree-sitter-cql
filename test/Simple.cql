@@ -34,3 +34,19 @@ define "testop":
 
 define "testquantity":
   4 days
+
+define "testlet":
+  from [Encounter] E
+  let overlapDuration: true where true
+
+define "testwith":
+  [Encounter] E
+    with [Procedure] P such that true
+
+define "testreturn":
+  [Encounter] E
+   return true
+
+define "testsort":
+  [Encounter] E
+   sort by true,false asc

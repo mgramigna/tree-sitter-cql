@@ -17,6 +17,29 @@ module.exports = grammar({
     [$.membership_expression, $.timing_expression],
     [$.interval_operator_phrase],
     [$.quantity, $.literal],
+    [$.boolean_expression, $.type_expression, $.let_clause_item],
+    [$.boolean_expression, $.type_expression, $.with_clause],
+    [$.boolean_expression, $.type_expression, $.without_clause],
+    [$.boolean_expression, $.type_expression, $.return_clause],
+    [$.type_expression, $.return_clause],
+    [$.type_expression, $.with_clause],
+    [$.type_expression, $.without_clause],
+    [$.type_expression, $.let_clause_item],
+    [$.timing_expression, $.between_expression, $.return_clause],
+    [$.timing_expression, $.return_clause],
+    [$.between_expression, $.return_clause],
+    [$.timing_expression, $.between_expression, $.let_clause_item],
+    [$.timing_expression, $.between_expression, $.with_clause],
+    [$.timing_expression, $.between_expression, $.without_clause],
+    [$.between_expression, $.with_clause],
+    [$.between_expression, $.without_clause],
+    [$.timing_expression, $.with_clause],
+    [$.timing_expression, $.without_clause],
+    [$.timing_expression, $.let_clause_item],
+    [$.between_expression, $.let_clause_item],
+    [$.query_source_clause],
+    [$.query],
+    [$.let_clause],
   ],
 
   rules: {
@@ -423,14 +446,50 @@ module.exports = grammar({
     timing_expression: ($) =>
       seq($.expression, $.interval_operator_phrase, $.expression),
 
-    // TODO: let
-    // TODO: inclusion
     // TODO aggregate
-    // TODO: return
-    // TODO: sort
-    query: ($) => seq($.query_source_clause, optional($.where_clause)),
+    query: ($) =>
+      seq(
+        $.query_source_clause,
+        optional($.let_clause),
+        repeat($.query_inclusion_clause),
+        optional($.where_clause),
+        optional(choice($.return_clause)),
+        optional($.sort_clause)
+      ),
 
     where_clause: ($) => prec.left(1, seq("where", $.expression)),
+
+    let_clause: ($) =>
+      seq("let", $.let_clause_item, repeat(seq(",", $.let_clause_item))),
+
+    let_clause_item: ($) => seq($.identifier, ":", $.expression),
+
+    query_inclusion_clause: ($) => choice($.with_clause, $.without_clause),
+
+    with_clause: ($) =>
+      seq("with", $.aliased_query_source, "such that", $.expression),
+
+    without_clause: ($) =>
+      seq("without", $.aliased_query_source, "such that", $.expression),
+
+    return_clause: ($) =>
+      seq("return", optional(choice("all", "distinct")), $.expression),
+
+    sort_clause: ($) =>
+      prec.left(
+        1,
+        seq(
+          "sort",
+          choice(
+            $.sort_direction,
+            seq("by", $.sort_by_item, repeat(seq(",", $.sort_by_item)))
+          )
+        )
+      ),
+
+    sort_direction: () => choice(/asc|ascending/, /desc|descending/),
+
+    sort_by_item: ($) => seq($.expression_term, optional($.sort_direction)),
 
     query_source: ($) =>
       choice(
