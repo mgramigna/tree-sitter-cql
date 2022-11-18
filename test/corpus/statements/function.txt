@@ -5,7 +5,13 @@ Function Definition
 define function fn():
   true
 
+define function fn(op1 Code, op2 Concept):
+  true
+
 define private function fn():
+  external
+
+define function fn() returns Code:
   external
 
 ---
@@ -21,7 +27,40 @@ define private function fn():
             (literal
               (boolean_literal)))))))
   (statement
+    (function_definition
+      (identifier
+        (default_identifier))
+      (operand_definition
+        (referential_identifier
+          (identifier
+            (default_identifier)))
+        (type_specifier
+          (named_type_specifier
+            (referential_or_type_name_identifier
+              (type_name_identifier)))))
+      (operand_definition
+        (referential_identifier
+          (identifier
+            (default_identifier)))
+        (type_specifier
+          (named_type_specifier
+            (referential_or_type_name_identifier
+              (type_name_identifier)))))
+      (function_body
+        (expression_term
+          (term
+            (literal
+              (boolean_literal)))))))
+  (statement
       (function_definition
         (access_modifier)
         (identifier
-          (default_identifier)))))
+          (default_identifier))))
+  (statement
+      (function_definition
+        (identifier
+          (default_identifier))
+        (type_specifier
+          (named_type_specifier
+            (referential_or_type_name_identifier
+              (type_name_identifier)))))))

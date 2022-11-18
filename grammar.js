@@ -151,21 +151,25 @@ module.exports = grammar({
         $.identifier
       ),
 
-    // TODO: fluentModifier
     // TODO: functionIdentifier
-    // TODO: operands
-    // TODO: returns type
     function_definition: ($) =>
       seq(
         "define",
         optional($.access_modifier),
+        optional(alias("fluent", $.fluent_modifier)),
         "function",
         $.identifier,
         "(",
+        optional(
+          seq($.operand_definition, repeat(seq(",", $.operand_definition)))
+        ),
         ")",
+        optional(seq("returns", $.type_specifier)),
         ":",
         choice(alias($.expression, $.function_body), "external")
       ),
+
+    operand_definition: ($) => seq($.referential_identifier, $.type_specifier),
 
     /* Expressions */
 

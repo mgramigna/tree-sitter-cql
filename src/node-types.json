@@ -681,11 +681,23 @@
           "named": true
         },
         {
+          "type": "fluent_modifier",
+          "named": true
+        },
+        {
           "type": "function_body",
           "named": true
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "operand_definition",
+          "named": true
+        },
+        {
+          "type": "type_specifier",
           "named": true
         }
       ]
@@ -982,6 +994,25 @@
     "type": "offset_relative_qualifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "operand_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "referential_identifier",
+          "named": true
+        },
+        {
+          "type": "type_specifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "or_expression",
@@ -1860,6 +1891,10 @@
     "named": false
   },
   {
+    "type": "fluent_modifier",
+    "named": true
+  },
+  {
     "type": "from",
     "named": false
   },
@@ -2025,6 +2060,10 @@
   },
   {
     "type": "public",
+    "named": false
+  },
+  {
+    "type": "returns",
     "named": false
   },
   {
