@@ -1,0 +1,27 @@
+===================
+Function Definition
+===================
+
+define function fn():
+  true
+
+define private function fn():
+  external
+
+---
+
+(cql_library
+  (statement
+    (function_definition
+      (identifier
+        (default_identifier))
+      (function_body
+        (expression_term
+          (term
+            (literal
+              (boolean_literal)))))))
+  (statement
+      (function_definition
+        (access_modifier)
+        (identifier
+          (default_identifier)))))

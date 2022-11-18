@@ -137,7 +137,6 @@ module.exports = grammar({
 
     /* Statements */
 
-    // TODO: Function
     statement: ($) =>
       choice(
         $.expression_definition,

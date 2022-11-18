@@ -1,0 +1,20 @@
+==================
+Context Definition
+==================
+
+context Patient
+context FHIR.Patient
+
+---
+
+(cql_library
+  (statement
+    (context_definition
+      (identifier
+        (default_identifier))))
+  (statement
+    (context_definition
+      (model_identifier
+        (default_identifier))
+      (identifier
+        (default_identifier)))))
