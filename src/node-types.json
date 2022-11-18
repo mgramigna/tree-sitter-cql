@@ -73,6 +73,21 @@
     }
   },
   {
+    "type": "case_expression_item",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "cast_expression",
     "named": true,
     "fields": {},
@@ -429,6 +444,21 @@
     }
   },
   {
+    "type": "date_time_component",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "date_time_precision",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "date_time_precision",
     "named": true,
     "fields": {}
@@ -732,11 +762,51 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "case_expression_item",
+          "named": true
+        },
+        {
+          "type": "date_time_component",
+          "named": true
+        },
+        {
+          "type": "date_time_precision",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "expression_term",
+          "named": true
+        },
+        {
+          "type": "named_type_specifier",
+          "named": true
+        },
+        {
+          "type": "plural_date_time_precision",
+          "named": true
+        },
+        {
+          "type": "qualified_invocation",
+          "named": true
+        },
+        {
           "type": "term",
+          "named": true
+        },
+        {
+          "type": "type_specifier",
+          "named": true
+        },
+        {
+          "type": "unit",
           "named": true
         }
       ]
@@ -916,6 +986,21 @@
         },
         {
           "type": "quoted_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "identifier_or_function_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -1463,6 +1548,21 @@
     "fields": {}
   },
   {
+    "type": "qualified_function",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier_or_function_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "qualified_identifier",
     "named": true,
     "fields": {},
@@ -1491,6 +1591,25 @@
       "types": [
         {
           "type": "qualifier_expression",
+          "named": true
+        },
+        {
+          "type": "referential_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qualified_invocation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "qualified_function",
           "named": true
         },
         {
@@ -2431,6 +2550,10 @@
     "named": false
   },
   {
+    "type": "&",
+    "named": false
+  },
+  {
     "type": "'",
     "named": false
   },
@@ -2443,7 +2566,19 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
     "named": false
   },
   {
@@ -2452,6 +2587,10 @@
   },
   {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": "/",
     "named": false
   },
   {
@@ -2519,6 +2658,10 @@
     "named": false
   },
   {
+    "type": "^",
+    "named": false
+  },
+  {
     "type": "`",
     "named": false
   },
@@ -2567,6 +2710,10 @@
     "named": false
   },
   {
+    "type": "case",
+    "named": false
+  },
+  {
     "type": "cast",
     "named": false
   },
@@ -2583,6 +2730,10 @@
     "named": false
   },
   {
+    "type": "collapse",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
@@ -2596,6 +2747,10 @@
   },
   {
     "type": "context",
+    "named": false
+  },
+  {
+    "type": "convert",
     "named": false
   },
   {
@@ -2667,6 +2822,10 @@
     "named": false
   },
   {
+    "type": "else",
+    "named": false
+  },
+  {
     "type": "end",
     "named": false
   },
@@ -2687,11 +2846,19 @@
     "named": false
   },
   {
+    "type": "expand",
+    "named": false
+  },
+  {
     "type": "external",
     "named": false
   },
   {
     "type": "false",
+    "named": false
+  },
+  {
+    "type": "flatten",
     "named": false
   },
   {
@@ -2716,6 +2883,10 @@
   },
   {
     "type": "hours",
+    "named": false
+  },
+  {
+    "type": "if",
     "named": false
   },
   {
@@ -2763,6 +2934,10 @@
     "named": true
   },
   {
+    "type": "maximum",
+    "named": false
+  },
+  {
     "type": "meets",
     "named": false
   },
@@ -2772,6 +2947,10 @@
   },
   {
     "type": "milliseconds",
+    "named": false
+  },
+  {
+    "type": "minimum",
     "named": false
   },
   {
@@ -2863,6 +3042,14 @@
     "named": false
   },
   {
+    "type": "per",
+    "named": false
+  },
+  {
+    "type": "point",
+    "named": false
+  },
+  {
     "type": "predecessor",
     "named": false
   },
@@ -2903,6 +3090,10 @@
     "named": true
   },
   {
+    "type": "singleton",
+    "named": false
+  },
+  {
     "type": "sort",
     "named": false
   },
@@ -2927,6 +3118,10 @@
     "named": false
   },
   {
+    "type": "then",
+    "named": false
+  },
+  {
     "type": "time",
     "named": false
   },
@@ -2944,6 +3139,10 @@
   },
   {
     "type": "timezoneoffset",
+    "named": false
+  },
+  {
+    "type": "to",
     "named": false
   },
   {
@@ -2972,6 +3171,10 @@
   },
   {
     "type": "weeks",
+    "named": false
+  },
+  {
+    "type": "when",
     "named": false
   },
   {

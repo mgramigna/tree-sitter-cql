@@ -42,6 +42,7 @@ module.exports = grammar({
     [$.let_clause],
     [$.invocation, $.qualified_identifier_expression],
     [$.qualified_identifier_expression, $.simple_path],
+    [$.code_or_codesystem_identifier],
   ],
 
   rules: {
@@ -230,8 +231,67 @@ module.exports = grammar({
         $.timing_expression
       ),
 
-    // TODO: everything
-    expression_term: ($) => choice($.term),
+    expression_term: ($) =>
+      prec.left(
+        1,
+        choice(
+          $.term,
+          seq($.expression_term, ".", $.qualified_invocation),
+          seq($.expression_term, "[", $.expression, "]"),
+          seq("convert", $.expression, "to", choice($.type_specifier, $.unit)),
+          seq(choice("+", "-"), $.expression_term),
+          seq(choice("start", "end"), "of", $.expression_term),
+          seq($.date_time_component, "from", $.expression_term),
+          seq(
+            "duration",
+            "in",
+            $.plural_date_time_precision,
+            "of",
+            $.expression_term
+          ),
+          seq(
+            "difference",
+            "in",
+            $.plural_date_time_precision,
+            "of",
+            $.expression_term
+          ),
+          seq("width", "of", $.expression_term),
+          seq("successor", "of", $.expression_term),
+          seq("predecessor", "of", $.expression_term),
+          seq("singleton", "from", $.expression_term),
+          seq("point", "from", $.expression_term),
+          seq(choice("minimum", "maximum"), $.named_type_specifier),
+          seq($.expression_term, "^", $.expression_term),
+          prec.left(
+            2,
+            seq(
+              $.expression_term,
+              choice("*", "/", "div", "mod"),
+              $.expression_term
+            )
+          ),
+          prec.left(
+            1,
+            seq($.expression_term, choice("+", "-", "&"), $.expression_term)
+          ),
+          seq("if", $.expression, "then", $.expression, "else", $.expression),
+          seq(
+            "case",
+            optional($.expression),
+            repeat1($.case_expression_item),
+            "else",
+            $.expression,
+            "end"
+          ),
+          seq(choice("distinct", "flatten"), $.expression),
+          seq(
+            choice("expand", "collapse"),
+            $.expression,
+            optional(seq("per", choice($.date_time_precision, $.expression)))
+          )
+        )
+      ),
 
     term: ($) =>
       choice(
@@ -247,7 +307,20 @@ module.exports = grammar({
         $.concept_selector
       ),
 
+    case_expression_item: ($) =>
+      seq("when", $.expression, "then", $.expression),
+
+    qualified_invocation: ($) =>
+      choice($.referential_identifier, $.qualified_function),
+
+    // TODO: paramsList
+    qualified_function: ($) =>
+      seq($.identifier_or_function_identifier, "(", ")"),
+
     external_constant: ($) => seq("%", choice($.identifier, $.string)),
+
+    // TODO: functionIdentifier
+    identifier_or_function_identifier: ($) => choice($.identifier),
 
     invocation: ($) =>
       prec(
@@ -599,7 +672,8 @@ module.exports = grammar({
 
     sort_direction: () => choice(/asc|ascending/, /desc|descending/),
 
-    sort_by_item: ($) => seq($.expression_term, optional($.sort_direction)),
+    sort_by_item: ($) =>
+      prec.left(1, seq($.expression_term, optional($.sort_direction))),
 
     query_source: ($) =>
       choice(
