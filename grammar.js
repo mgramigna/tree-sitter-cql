@@ -41,6 +41,7 @@ module.exports = grammar({
     [$.query],
     [$.let_clause],
     [$.invocation, $.qualified_identifier_expression],
+    [$.qualified_identifier_expression, $.simple_path],
   ],
 
   rules: {
@@ -249,12 +250,15 @@ module.exports = grammar({
     external_constant: ($) => seq("%", choice($.identifier, $.string)),
 
     invocation: ($) =>
-      choice(
-        $.referential_identifier,
-        $.function_invocation,
-        "$this",
-        "$index",
-        "$total"
+      prec(
+        1,
+        choice(
+          $.referential_identifier,
+          $.function_invocation,
+          "$this",
+          "$index",
+          "$total"
+        )
       ),
 
     // TODO: figure out params for invocations
@@ -388,7 +392,6 @@ module.exports = grammar({
         $.expression_term
       ),
 
-    // TODO: look at precedence?
     equality_expression: ($) =>
       prec.left(
         2,
@@ -401,15 +404,11 @@ module.exports = grammar({
         seq($.expression, choice("<=", "<", ">", ">="), $.expression)
       ),
 
-    // TODO: prec
     and_expression: ($) => prec.left(2, seq($.expression, "and", $.expression)),
 
     or_expression: ($) =>
       prec.left(2, seq($.expression, choice("or", "xor"), $.expression)),
 
-    /*
-     * TODO: prec
-     */
     implies_expression: ($) =>
       prec.left(2, seq($.expression, "implies", $.expression)),
 
@@ -619,12 +618,36 @@ module.exports = grammar({
         repeat(seq(",", $.aliased_query_source))
       ),
 
-    // TODO: contextIdentifier
-    // TODO: codepath codeComparator
     retrieve: ($) =>
-      seq("[", $.named_type_specifier, optional(seq(":", $.terminology)), "]"),
+      seq(
+        "[",
+        optional(
+          seq(
+            alias($.qualified_identifier_expression, $.context_identifier),
+            "->"
+          )
+        ),
+        $.named_type_specifier,
+        optional(
+          seq(
+            ":",
+            optional(seq(alias($.simple_path, $.code_path), $.code_comparator)),
+            $.terminology
+          )
+        ),
+        "]"
+      ),
+
+    code_comparator: () => choice("in", "=", "~"),
 
     terminology: ($) => choice($.qualified_identifier_expression, $.expression),
+
+    simple_path: ($) =>
+      choice(
+        $.referential_identifier,
+        seq($.simple_path, ".", $.referential_identifier),
+        seq($.simple_path, "[", $.simple_literal, "]")
+      ),
 
     /* Type Specifiers */
     type_specifier: ($) =>
