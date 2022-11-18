@@ -40,6 +40,7 @@ module.exports = grammar({
     [$.query_source_clause],
     [$.query],
     [$.let_clause],
+    [$.invocation, $.qualified_identifier_expression],
   ],
 
   rules: {
@@ -231,8 +232,106 @@ module.exports = grammar({
     // TODO: everything
     expression_term: ($) => choice($.term),
 
-    // TODO: everything
-    term: ($) => choice($.literal),
+    term: ($) =>
+      choice(
+        $.invocation,
+        $.literal,
+        $.parenthesized_term,
+        $.external_constant,
+        $.interval_selector,
+        $.tuple_selector,
+        $.instance_selector,
+        $.list_selector,
+        $.code_selector,
+        $.concept_selector
+      ),
+
+    external_constant: ($) => seq("%", choice($.identifier, $.string)),
+
+    invocation: ($) =>
+      choice(
+        $.referential_identifier,
+        $.function_invocation,
+        "$this",
+        "$index",
+        "$total"
+      ),
+
+    // TODO: figure out params for invocations
+    function_invocation: ($) => seq($.referential_identifier, "(", ")"),
+
+    parenthesized_term: ($) => seq("(", $.expression, ")"),
+
+    list_selector: ($) =>
+      seq(
+        optional(seq("List", optional(seq("<", $.type_specifier, ">")))),
+        "{",
+        optional(seq($.expression, repeat(seq(",", $.expression)))),
+        "}"
+      ),
+
+    code_selector: ($) =>
+      seq(
+        "Code",
+        $.string,
+        "from",
+        alias($.code_or_codesystem_identifier, $.codesystem_identifier),
+        optional($.display_clause)
+      ),
+
+    concept_selector: ($) =>
+      seq(
+        "Concept",
+        "{",
+        $.code_selector,
+        repeat(seq(",", $.code_selector)),
+        "}",
+        optional($.display_clause)
+      ),
+
+    interval_selector: ($) =>
+      seq(
+        "Interval",
+        choice("[", "("),
+        $.expression,
+        ",",
+        $.expression,
+        choice("]", ")")
+      ),
+
+    tuple_selector: ($) =>
+      seq(
+        optional("Tuple"),
+        "{",
+        choice(
+          ":",
+          seq(
+            $.tuple_element_selector,
+            repeat(seq(",", $.tuple_element_selector))
+          )
+        ),
+        "}"
+      ),
+
+    instance_selector: ($) =>
+      seq(
+        $.named_type_specifier,
+        "{",
+        choice(
+          ":",
+          seq(
+            $.instance_element_selector,
+            repeat(seq(",", $.instance_element_selector))
+          )
+        ),
+        "}"
+      ),
+
+    tuple_element_selector: ($) =>
+      seq($.referential_identifier, ":", $.expression),
+
+    instance_element_selector: ($) =>
+      seq($.referential_identifier, ":", $.expression),
 
     quantity: ($) => seq($.number, optional($.unit)),
 
@@ -605,7 +704,8 @@ module.exports = grammar({
         "`"
       ),
 
-    referential_identifier: ($) => choice($.identifier, $.keyword_identifier),
+    referential_identifier: ($) =>
+      prec(1, choice($.identifier, $.keyword_identifier)),
 
     type_name_identifier: () =>
       prec(1, choice("Code", "Concept", "date", "time")),
