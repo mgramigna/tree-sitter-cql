@@ -236,14 +236,26 @@ module.exports = grammar({
 
     quantity: ($) => seq($.number, optional($.unit)),
 
-    // TODO: long date datetime time  ratio
+    ratio: ($) => seq($.quantity, ":", $.quantity),
+
     literal: ($) =>
       choice(
         alias(/true|false/, $.boolean_literal),
         alias("null", $.null_literal),
         alias($.string, $.string_literal),
         alias($.number, $.number_literal),
-        alias($.quantity, $.quantity_literal)
+        alias($.long_number, $.long_number_literal),
+        alias($.quantity, $.quantity_literal),
+        alias($.ratio, $.ratio_literal),
+        alias($.date, $.date_literal),
+        alias($.datetime, $.datetime_literal),
+        alias($.time, $.time_literal)
+      ),
+
+    simple_literal: ($) =>
+      choice(
+        alias($.string, $.string_literal),
+        alias($.number, $.number_literal)
       ),
 
     qualified_identifier_expression: ($) =>
@@ -560,8 +572,8 @@ module.exports = grammar({
 
     version_specifier: ($) => seq("version", alias($.string, $.version)),
 
-    // TODO: delimited identifier
-    identifier: ($) => choice($.default_identifier, $.quoted_identifier),
+    identifier: ($) =>
+      choice($.default_identifier, $.quoted_identifier, $.delimited_identifier),
 
     code_or_codesystem_identifier: ($) =>
       seq(
@@ -581,6 +593,16 @@ module.exports = grammar({
           repeat(choice($.double_quote_string_fragment, $.escape_sequence))
         ),
         '"'
+      ),
+
+    delimited_identifier: ($) =>
+      seq(
+        "`",
+
+        optional(
+          repeat(choice($.delimited_string_fragment, $.escape_sequence))
+        ),
+        "`"
       ),
 
     referential_identifier: ($) => choice($.identifier, $.keyword_identifier),
@@ -658,6 +680,8 @@ module.exports = grammar({
 
     double_quote_string_fragment: () => token.immediate(prec(1, /[^"\\]+/)),
 
+    delimited_string_fragment: () => token.immediate(prec(1, /[^`\\]+/)),
+
     escape_sequence: () =>
       token.immediate(
         seq(
@@ -674,10 +698,33 @@ module.exports = grammar({
 
     number: () => /[0-9]+('.' [0-9]+)?/,
 
+    long_number: () => /[0-9]+L/,
+
     unit: ($) =>
       choice($.date_time_precision, $.plural_date_time_precision, $.string),
 
     display_clause: ($) => seq("display", $.string),
+
+    /** Dates **/
+
+    date: ($) => seq("@", $.date_format),
+
+    datetime: ($) =>
+      seq(
+        "@",
+        $.date_format,
+        "T",
+        optional(seq($.time_format, optional($.timezone_offset_format)))
+      ),
+
+    time: ($) => seq("@", "T", $.time_format),
+
+    date_format: () => /[0-9][0-9][0-9][0-9] ('-'[0-9][0-9] ('-'[0-9][0-9])?)?/,
+
+    time_format: () =>
+      /[0-9][0-9] (':'[0-9][0-9] (':'[0-9][0-9] ('.'[0-9]+)?)?)?/,
+
+    timezone_offset_format: () => /('Z' | ('+' | '-') [0-9][0-9]':'[0-9][0-9])/,
 
     /* Extras */
     comment: () =>
