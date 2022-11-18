@@ -1414,6 +1414,10 @@
       "required": true,
       "types": [
         {
+          "type": "expression",
+          "named": true
+        },
+        {
           "type": "qualified_identifier_expression",
           "named": true
         }

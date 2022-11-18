@@ -450,8 +450,7 @@ module.exports = grammar({
     retrieve: ($) =>
       seq("[", $.named_type_specifier, optional(seq(":", $.terminology)), "]"),
 
-    // TODO: expression as well
-    terminology: ($) => choice($.qualified_identifier_expression),
+    terminology: ($) => choice($.qualified_identifier_expression, $.expression),
 
     /* Type Specifiers */
     // TODO: listTypeSpecifier

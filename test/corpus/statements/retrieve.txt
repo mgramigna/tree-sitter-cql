@@ -1,0 +1,64 @@
+========
+Retrieve
+========
+
+define "Retrieve":
+  [Encounter]
+
+define "Retrieve":
+  [Encounter: "test-vs"]
+
+define "Retrieve":
+  [Encounter: true]
+
+---
+
+(cql_library
+  (statement
+    (expression_definition
+      (identifier
+        (quoted_identifier
+          (double_quote_string_fragment)))
+      (expression
+        (retrieve
+          (named_type_specifier
+            (referential_or_type_name_identifier
+              (referential_identifier
+                (identifier
+                  (default_identifier)))))))))
+  (statement
+    (expression_definition
+      (identifier
+        (quoted_identifier
+          (double_quote_string_fragment)))
+      (expression
+        (retrieve
+          (named_type_specifier
+            (referential_or_type_name_identifier
+              (referential_identifier
+                (identifier
+                  (default_identifier)))))
+          (terminology
+            (qualified_identifier_expression
+              (referential_identifier
+                (identifier
+                  (quoted_identifier
+                    (double_quote_string_fragment))))))))))
+  (statement
+      (expression_definition
+        (identifier
+          (quoted_identifier
+            (double_quote_string_fragment)))
+        (expression
+          (retrieve
+            (named_type_specifier
+              (referential_or_type_name_identifier
+                (referential_identifier
+                  (identifier
+                    (default_identifier)))))
+            (terminology
+              (expression
+                (expression_term
+                  (term
+                    (literal
+                      (boolean_literal)))))))))))
