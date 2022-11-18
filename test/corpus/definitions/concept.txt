@@ -1,0 +1,34 @@
+==================
+Concept Definition
+==================
+
+concept TestConcept: { c1, c2 }
+public concept TestConcept: { c1, c2 } display 'test-concept'
+
+---
+
+(cql_library
+  (definition
+    (concept_definition
+      (identifier
+        (default_identifier))
+      (code_identifier
+        (identifier
+          (default_identifier)))
+      (code_identifier
+        (identifier
+          (default_identifier)))))
+  (definition
+    (concept_definition
+      (access_modifier)
+      (identifier
+        (default_identifier))
+      (code_identifier
+        (identifier
+          (default_identifier)))
+      (code_identifier
+        (identifier
+          (default_identifier)))
+      (display_clause
+        (string
+          (single_quote_string_fragment))))))

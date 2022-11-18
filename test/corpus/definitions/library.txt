@@ -1,0 +1,16 @@
+==================
+Library Definition
+==================
+
+library TestLib version '0.0.1'
+
+---
+
+(cql_library
+  (library_definition
+    (qualified_identifier
+      (identifier
+        (default_identifier)))
+    (version_specifier
+      (version
+        (single_quote_string_fragment)))))

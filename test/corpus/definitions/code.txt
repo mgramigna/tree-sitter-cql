@@ -1,0 +1,32 @@
+===============
+Code Definition
+===============
+
+code c: 'test-code' from cs
+public code c: 'test-code' from cs display 'test-display'
+
+---
+
+(cql_library
+  (definition
+    (code_definition
+      (identifier
+        (default_identifier))
+      (code_id
+        (single_quote_string_fragment))
+      (codesystem_identifier
+        (identifier
+          (default_identifier)))))
+  (definition
+    (code_definition
+      (access_modifier)
+      (identifier
+        (default_identifier))
+      (code_id
+        (single_quote_string_fragment))
+      (codesystem_identifier
+        (identifier
+          (default_identifier)))
+      (display_clause
+        (string
+          (single_quote_string_fragment))))))

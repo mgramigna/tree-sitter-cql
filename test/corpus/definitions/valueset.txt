@@ -1,0 +1,43 @@
+============
+ValueSet Def
+============
+
+valueset VS: 'http://example.com/test-vs'
+valueset VS: 'http://example.com/test-vs' version '0.0.1'
+private valueset VS: 'http://example.com/test-vs' codesystems { cs1, cs2 }
+
+---
+
+(cql_library
+  (definition
+    (valueset_definition
+      (qualified_identifier
+        (identifier
+          (default_identifier)))
+      (valueset_id
+        (single_quote_string_fragment))))
+  (definition
+    (valueset_definition
+      (qualified_identifier
+        (identifier
+          (default_identifier)))
+      (valueset_id
+        (single_quote_string_fragment))
+      (version_specifier
+        (version
+          (single_quote_string_fragment)))))
+   (definition
+    (valueset_definition
+      (access_modifier)
+      (qualified_identifier
+        (identifier
+          (default_identifier)))
+      (valueset_id
+        (single_quote_string_fragment))
+      (codesystems
+        (codesystem_identifier
+          (identifier
+            (default_identifier)))
+        (codesystem_identifier
+          (identifier
+            (default_identifier)))))))

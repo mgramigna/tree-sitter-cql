@@ -1,0 +1,26 @@
+=====================
+Codesystem Definition
+=====================
+
+codesystem cs: 'test-cs'
+public codesystem cs: 'test-cs' version '0.0.1'
+
+---
+
+(cql_library
+  (definition
+    (codesystem_definition
+      (identifier
+        (default_identifier))
+      (codesystem_id
+        (single_quote_string_fragment))))
+  (definition
+    (codesystem_definition
+      (access_modifier)
+      (identifier
+        (default_identifier))
+      (codesystem_id
+        (single_quote_string_fragment))
+      (version_specifier
+        (version
+          (single_quote_string_fragment))))))

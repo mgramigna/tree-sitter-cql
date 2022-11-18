@@ -1,0 +1,20 @@
+==================
+Include Definition
+==================
+
+include FHIRHelpers version '4.0.001' called Helpers
+
+---
+
+(cql_library
+  (definition
+    (include_definition
+      (qualified_identifier
+        (identifier
+          (default_identifier)))
+      (version_specifier
+        (version
+          (single_quote_string_fragment)))
+      (local_identifier
+        (default_identifier)))))
+
