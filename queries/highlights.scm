@@ -3,6 +3,8 @@
 (literal) @constant.builtin
 (version) @string
 (valueset_id) @string
+(boolean_literal) @constant.boolean
+(type_name_identifier) @type
 
 [
  "library"
@@ -26,10 +28,12 @@
 ] @keyword.function
 
 [
- "("
- ")"
- "["
- "]"
+"("
+")"
+"["
+"]"
+"{"
+"}"
 ] @punctuation.bracket
 
 [
