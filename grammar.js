@@ -90,7 +90,7 @@ module.exports = grammar({
         "codesystem",
         $.identifier,
         ":",
-        alias($.string, $.code_system_id),
+        alias($.string, $.codesystem_id),
         optional($.version_specifier)
       ),
 

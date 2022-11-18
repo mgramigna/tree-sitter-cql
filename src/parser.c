@@ -229,7 +229,7 @@ enum {
   aux_sym_quoted_identifier_repeat1 = 202,
   aux_sym_string_repeat1 = 203,
   alias_sym_code_id = 204,
-  alias_sym_code_system_id = 205,
+  alias_sym_codesystem_id = 205,
   alias_sym_codesystem_identifier = 206,
   alias_sym_function_body = 207,
   alias_sym_library_identifier = 208,
@@ -452,7 +452,7 @@ static const char * const ts_symbol_names[] = {
   [aux_sym_quoted_identifier_repeat1] = "quoted_identifier_repeat1",
   [aux_sym_string_repeat1] = "string_repeat1",
   [alias_sym_code_id] = "code_id",
-  [alias_sym_code_system_id] = "code_system_id",
+  [alias_sym_codesystem_id] = "codesystem_id",
   [alias_sym_codesystem_identifier] = "codesystem_identifier",
   [alias_sym_function_body] = "function_body",
   [alias_sym_library_identifier] = "library_identifier",
@@ -675,7 +675,7 @@ static const TSSymbol ts_symbol_map[] = {
   [aux_sym_quoted_identifier_repeat1] = aux_sym_quoted_identifier_repeat1,
   [aux_sym_string_repeat1] = aux_sym_string_repeat1,
   [alias_sym_code_id] = alias_sym_code_id,
-  [alias_sym_code_system_id] = alias_sym_code_system_id,
+  [alias_sym_codesystem_id] = alias_sym_codesystem_id,
   [alias_sym_codesystem_identifier] = alias_sym_codesystem_identifier,
   [alias_sym_function_body] = alias_sym_function_body,
   [alias_sym_library_identifier] = alias_sym_library_identifier,
@@ -1513,7 +1513,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
-  [alias_sym_code_system_id] = {
+  [alias_sym_codesystem_id] = {
     .visible = true,
     .named = true,
   },
@@ -1590,7 +1590,7 @@ static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE
     [3] = alias_sym_valueset_id,
   },
   [5] = {
-    [3] = alias_sym_code_system_id,
+    [3] = alias_sym_codesystem_id,
   },
   [6] = {
     [0] = alias_sym_null_literal,
@@ -1620,7 +1620,7 @@ static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE
     [4] = alias_sym_valueset_id,
   },
   [15] = {
-    [4] = alias_sym_code_system_id,
+    [4] = alias_sym_codesystem_id,
   },
   [16] = {
     [3] = alias_sym_code_id,
@@ -1670,7 +1670,7 @@ static const uint16_t ts_non_terminal_alias_map[] = {
   sym_string, 6,
     sym_string,
     alias_sym_code_id,
-    alias_sym_code_system_id,
+    alias_sym_codesystem_id,
     alias_sym_string_literal,
     alias_sym_valueset_id,
     alias_sym_version,
